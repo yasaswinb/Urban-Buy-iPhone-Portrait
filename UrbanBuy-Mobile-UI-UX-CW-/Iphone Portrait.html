@@ -1,0 +1,2077 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Urban Buy</title>
+
+    <link rel="stylesheet" href="https://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.css" />
+    <script src="https://code.jquery.com/jquery-1.11.1.min.js"></script>
+    <script src="https://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
+
+       <!-- css scripts -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.2/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+    
+    <script src="https://smtpjs.com/v3/smtp.js"></script>
+
+    <script src="https://checkout.stripe.com/checkout.js"></script>
+	
+
+    <style>
+        #footerNav .ui-btn, label.ui-btn {
+            border-style: none !important;
+            background-color: #F5F5F5 ;
+            /* height: 20px; */
+        }
+
+        /* shian */
+        .ui-panel {
+            position: fixed;
+        }
+        .ui-panel-dismiss-open {
+            background: rgba(0, 0, 0, 0.44) !important;
+        }
+    
+        .ui-page .ui-header {
+            background: #00C569 !important;
+            padding-top: 6%;
+        }
+    
+        .ui-page {
+            height: inherit;
+        }
+    
+        #logoOnHeader {
+            margin-top: -85px;
+            margin-bottom: -88px;
+            width: 100%;
+            /* 46.17 */
+        }
+    
+        #menu,
+        #menu1,
+        #menu2,
+        #menu3,
+        #menu4,
+        #menu5,
+        #menu6,
+        #menu7,
+        #menu8 {
+            background-color: #00C569;
+        }
+    
+        div.sidebar>div.row>div.col-8>h4 {
+            font-family: Segoe UI;
+            margin-bottom: 0rem;
+            font-weight: bolder
+        }
+    
+        div.sidebar>div.row>div.col-8>p.viewProfile {
+            font-family: Segoe UI;
+            margin-bottom: 0rem;
+            font-size: 12px;
+            color: #57F657;
+            text-decoration: underline;
+        }
+    
+        .side-li-element-text {
+            font-family: Segoe UI;
+            font-size: 20px;
+        }
+    
+        /* position login button at the bottom */
+        div.footer {
+            bottom: 0;
+            position: absolute;
+        }
+    
+        /* hr of sidebar */
+        hr.hr-sidebar {
+            border: 0;
+            height: 1px;
+            background-image: linear-gradient(to right, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0));
+            /* border: 0;
+            height: 1px;
+            background: #333;
+            background-image: linear-gradient(to right, #ccc, #333, #ccc); */
+        }
+
+        /* fix the issue which happen after click */
+        .ui-fixed-hidden{
+            position: fixed !important;
+        }
+
+        /* introductory page */
+        .fade.in {
+            opacity: 1;
+        }
+
+        .introductoryCard{
+            background-color: #00C569 ;
+            height: 648px;
+            width: 317px;
+           
+        }
+
+        #popupIntroductory-popup{
+             border-radius: 20px;
+        }
+
+        /* fix the introductory page width exceeding issue */
+        #popupIntroductory{
+            max-width: 317px;
+        }
+
+        /* .carousel-item-left{
+            display: none;
+            border-radius: 20px !important;
+        }
+        .carousel-item-right{
+            display: none;
+            border-radius: 20px !important;
+        } */
+
+        div.carousel-inner{
+            border-radius: 20px;
+        }
+        
+        /* div#popupIntroductory > div.bd-example > .carousel-control-next, .carousel-control-prev */
+        a#introductoryCarouselPrev, a#introductoryCarouselNext{
+            top: 600px;
+        }
+
+        #popupIntroductory-popup{
+            overflow: hidden;
+            position: fixed;
+        }
+        #popupIntroductory-screen{
+            overflow: hidden;
+            position: fixed;
+        }
+
+        #leftSlideOfCarousel {
+            border-radius: 15px;
+            max-width: 129px;
+            height: 91px;
+            background-color: rgba(20,19,19,0.55);
+            right: 15%;
+            bottom: 78px;
+            font-size: small;
+            left: 3%;
+        }
+        #middleSlideOfCarousel {
+            border-radius: 15px;
+            max-width: 225px;
+            height: 116px;
+            background-color: rgba(20,19,19,0.55);
+            right: 10%;
+            bottom: 45px;
+            left: 52%;
+            font-size: small;
+        }
+        #rightSlideOfCarousel {
+           border-radius: 15px;
+            max-width: 236px;
+            height: 99px;
+            background-color: rgba(20,19,19,0.55);
+            right: 10%;
+            bottom: 44px;
+            left: 45%;
+            font-size: small;
+        }
+
+        /* close button */
+        .ui-popup>.ui-btn-right {
+            right: 9px;
+            top: 9px;
+        }
+      
+        @font-face {
+            font-family: 'chiller';
+            src: url('fonts/CHILLER.eot');
+        }
+
+          /* categories page card styling */
+          .cardFontColor{
+            color: black !important;
+          }
+          a:hover {
+            text-decoration: none !important;
+           }
+
+        .categories-cards{
+            border-radius: 2rem;
+        }
+        div.categories-cards > img.image-resolution{
+            width: 128px;
+            height: 91px;
+        }
+        @media (min-width: 428px){
+            .col-6 {
+                max-width: 47%;
+                max-height: 179px;
+            }
+        }
+        /* categories page card styling */
+
+        /* market place page styling */
+        .market-cards{
+            border-radius: 2rem;
+        }
+        div.market-cards > img.image-resolution{
+            width: 128px;
+            height: 91px;
+        }
+
+         div.market-cards > div.card-body> div:nth-child(2)  > img.image-resolution{
+            width: 134px;
+            height: 82px;
+            padding-left: 13%;
+            margin-top: -11%;
+        }
+
+        div.market-cards > div.card-body> h5.card-title{
+            margin-bottom: 0.25em;
+            margin-top: 0.3em;
+        }
+        i[id*=hIcon]{
+                /* margin-bottom: -19%;
+                margin-left: 87%; */
+            margin-bottom: -26%;
+            margin-left: 87%;
+            font-size: x-large;
+        }
+        .bi-heart-fill::before {
+            color: #00C569;
+        }
+        .bi-star::before {
+            font-size: small;
+
+            color: #707070;
+        }
+        div[class*=ratingAreaOf]>i.bi-star-fill::before {
+            font-size: small;
+            
+            color: #ffc700;
+        }
+        div[class*=ratingAreaOf]{
+            padding-left: 2%;
+        }
+        /* market place page styling */
+
+        /* specific poi styling */
+        .specificPoIImgResolution {
+            width: 252px;
+            height: 288px;
+        }
+
+        /* .carousel-control-next-icon,
+        .carousel-control-prev-icon {
+            filter: invert(56%) sepia(34%) saturate(7314%) hue-rotate(123deg) brightness(104%) contrast(101%);
+            filter: invert(1);
+        } */
+
+        div.ui-content>div.container>div.row>div:nth-child(2)>div#poiDtlsCarouselIndicators>ol.carousel-indicators li {
+            width: 35px;
+            height: 10px;
+            border: 2px solid #00C569;
+            border-radius: 20px;
+            background-color: white;
+        }
+
+        div.ui-content>div.container>div.row>div:nth-child(2)>div#poiDtlsCarouselIndicators>ol.carousel-indicators .active {
+            background-color: #00C569;
+        }
+
+        div#specificPoIFavouriteIcon>i {
+            font-size:  xx-large;
+        }
+
+        div#specificPoIFavouriteIcon>i.bi-heart {
+            filter: invert(56%) sepia(34%) saturate(7314%) hue-rotate(123deg) brightness(104%) contrast(101%);
+            font-size: xx-large;
+        }
+
+        /* specific poi styling */
+
+        /* cart styling */
+        div.cart-cards {
+            border-radius: 10px;
+        }
+        div#cartSuccessPopup-screen{
+                position: fixed;
+        }
+        div#ratingPopup-popup {
+            max-width: 560px;
+            top: 330px;
+            left: 100px;
+        }
+         #ratingPopup {
+            width: 383px;
+            height: 270px;
+            left: 0%;
+            border-radius: 20px;
+        }
+
+        /* cart styling */
+
+        /* checkout styling */
+        .ui-page-theme-a .ui-btn.ui-btn-active{
+                background-color: #909090;
+        }
+        .error {
+            color:red;
+        }
+        .iconTick{
+            background-color: #00C569 !important;
+        }
+        /* checkout styling */
+
+        #emailFavPopup-screen,
+        #emailFavSuccessPopup-screen,
+        #eventFailPopup-screen,
+        #cartSuccessPopup-screen,
+        #checkoutSuccessPopup-screen,
+        #checkoutFailPopup-screen,
+        #ratingSuccessPopup-screen,
+        #cartUnSuccessPopup-screen,
+        #shareFavBtnFailPopup-screen,
+        #eventFailCartPopup-screen,
+        #eventFailMailPopup-screen{
+            height: 2000px;
+            position: fixed;
+        }
+        
+    </style>
+    <script type="text/javascript" src="marketCardPopulationY.js"></script>
+</head>
+<body>
+    
+    <!-- This is page 1 Home-->
+    <div data-role="page" id="Page1">
+
+        <!-- /menu panel left-->
+        <div data-role="panel" data-position="left" data-display="overlay" data-theme="b" id="menu1">
+            <div class="container sidebar mt-4">
+                <div class="row">
+                    <div class="col-4">
+                        <img src="./images/profilepic.png" alt="">
+                    </div>
+                    <div class="col-8">
+                        <h4>Alexandra</h4>
+                        <p class="viewProfile">View profile</p>
+                    </div>
+                </div>
+                <hr class="hr-sidebar">
+                <div class="row mt-4" onclick="goToPage('#Page1','')">
+                    <div class="col-2"><img src="./images/homeiconSidebar.png" alt=""></div>
+                    <div class="col-8 pl-4"><p class="side-li-element-text">Home</p></div>
+                </div>
+                <div class="row mt-4" onclick="goToPage('#Page8','')">
+                    <div class="col-2"><img src="./images/clockiconSidebar.png" alt=""></div>
+                    <div class="col-8 pl-4"><p class="side-li-element-text">Order History</p></div>
+                </div>
+                <div class="row mt-4">
+                    <div class="col-2"><img src="./images/barcodescannericonSidebar.png" alt=""></div>
+                    <div class="col-8 pl-4"><p class="side-li-element-text">QR</p></div>
+                </div>
+                <div class="row mt-4">
+                    <div class="col-2"><img src="./images/informationiconSidebar.png" alt=""></div>
+                    <div class="col-8 pl-4"><p class="side-li-element-text">About Us</p></div>
+                </div>
+                <div class="row mt-4">
+                    <div class="col-2"><img src="./images/settingsiconSidebar.png" alt=""></div>
+                    <div class="col-8 pl-4"><p class="side-li-element-text">Settings</p></div>
+                </div>
+                <hr class="hr-sidebar" style="margin-top: 100%;">
+                <div class="row footer">
+                    <div class="col-2"><img src="./images/logout.png" alt=""></div>
+                    <div class="col-8 pl-4"><p class="side-li-element-text">Log Out</p></div>
+                </div>
+            </div>
+            <!-- <hr>
+            <div class="container footer">
+                <div class="row">
+                    <div class="col-2"><img src="./img/logout.png" alt=""></div>
+                    <div class="col-8 pl-4"><p class="side-li-element-text">Log Out</p></div>
+                </div>
+            </div> -->
+        </div>
+
+        <!-- /panel left-->
+        <div data-role="header" class="container" data-position="fixed" >
+            
+            <div class="row" style="padding-bottom: 6%;">
+                <div class="col-2 mx-auto my-auto">
+                    <a href="#menu1">
+                        <img href="#menu1" src="./images/hamburgicon.png" alt="">
+                    </a>
+                </div>
+                <div class="col-8 mx-auto my-auto">
+                    <img src="./images/cropped_image_logo.png" id="logoOnHeader" alt="logo">
+                </div>
+                <div class="col-2 mx-auto my-auto" style="text-align: right;" id="cartPg1">
+                    <img src="./images/carticon.png" alt="">
+                </div>
+            </div>
+
+        </div><!-- /header -->
+
+        <div role="main" class="ui-content">
+
+            <!-- introductory page -->
+            <a href="#popupIntroductory" data-rel="popup" data-position-to="window" data-transition="fade"> </a>
+
+            <div data-role="popup" id="popupIntroductory" data-overlay-theme="b" data-corners="false" style="border-radius: 20px; background-color: #00C569;">
+                    <a href="#" data-rel="back" class="closeBtn ui-btn ui-corner-all ui-shadow ui-btn-a ui-icon-delete ui-btn-icon-notext ui-btn-right" style="background-color: #00c569 !important;">Close</a>
+                    
+                    <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
+                        <ol class="carousel-indicators" style="bottom: 6%;">
+                            <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
+                            <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
+                            <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
+                        </ol>
+                        <div class="carousel-inner">
+                            <div class="carousel-item active">
+                                <div class="introductoryCard">
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div class="card" style="margin-top: 20%;background-color: #00c569;border: 1px solid rgb(0 0 0 / 0%);">
+                                                <div class="card-body" style="font-family: chiller;font-size: 80px; text-align: center; filter: invert(1) brightness(10);">
+                                                    Welcome To
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                         <img style="width: 21em; margin-top: -22%; padding-left: 9%;" src="images/Urban-Buy.png">              
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="carousel-item">
+                                <div class="introductoryCard">
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div class="card" style="margin-top: 20%;background-color: #00c569;border: 1px solid rgb(0 0 0 / 0%);">
+                                                <div class="card-body"
+                                                    style="font-family: chiller;font-size: 72px; line-height: 80%; text-align: center; filter: invert(1) brightness(10);">
+                                                    Place your order in a snap
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <img style="width: 18em; margin-top: 10%; padding-left: 14%;" src="images/snap.png">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="carousel-item">
+                                <div class="introductoryCard">
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div class="card" style="margin-top: 20%;background-color: #00c569;border: 1px solid rgb(0 0 0 / 0%);">
+                                                <div class="card-body"
+                                                    style="font-family: chiller; margin-top: 5%; font-size: 68px; line-height: 35%; text-align: center; filter: invert(1) brightness(10);">
+                                                    Best deals
+                                                </div>
+                                                <div class="card-body"
+                                                    style="font-family: chiller;font-size: 68px; line-height: 35%; text-align: center; filter: invert(1) brightness(10);">
+                                                    only for
+                                                </div>
+                                                <div class="card-body"
+                                                    style="font-family: chiller;font-size: 68px; line-height: 0%; text-align: center; filter: invert(1) brightness(10);">
+                                                    you
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <img style="width: 18em; margin-top: 20%; padding-left: 20%; padding-right: 1%;" src="images/offers icon.png">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <a id="introductoryCarouselPrev" class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
+                            <span class="carousel-control" aria-hidden="true"><img src="images/arrow-left-introdyuctory.png" alt="..." style="margin-left: 20px; filter: brightness(1); margin-bottom: 30%;"></span>
+                            <span class="sr-only">Previous</span>
+                        </a>
+                        <a id="introductoryCarouselNext" class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
+                            <span class="carousel-control" aria-hidden="true"><img src="images/arrow-right-introductory.png" alt="..." style="margin-right: 16px; filter: brightness(1); margin-bottom: 30%;"></span>
+                            <span class="sr-only">Next</span>
+                        </a>
+                    </div>
+                    
+            </div>
+            
+            <!-- Home page -->
+            <div class="container px-0" data-position="fixed" style="margin-left: 1%;">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div id="promotionCarousel" class="carousel slide" data-ride="carousel">
+                            <ol class="carousel-indicators">
+                              <li data-target="#promotionCarousel" data-slide-to="0" class="active"></li>
+                              <li data-target="#promotionCarousel" data-slide-to="1"></li>
+                              <li data-target="#promotionCarousel" data-slide-to="2"></li>
+                            </ol>
+                            <div class="carousel-inner">
+                              <div class="carousel-item active">
+                                <img src="images/leftslide.png" class="d-block w-100" alt="...">
+                                <div id="leftSlideOfCarousel" class="carousel-caption d-md-block">
+                                    <!-- <h5>First slide label</h5> -->
+                                    <p>SUPER SALE !
+                                        GET <span style="color: #00FFEB;">50% DISCOUNT</span>
+                                        FOR THE MANY ITEMS.</p>
+                                </div>
+                              </div>
+                              <div class="carousel-item">
+                                <img src="images/middleSlide.png" class="d-block w-100" alt="...">
+                                <div id="middleSlideOfCarousel" class="carousel-caption  d-md-block">
+                                    <p>THE NEW SUPERMARKET
+                                        COMPARISON APP
+                                        COULD SAVE
+                                        <span style="color: #E3FF00;"> YOUR $$$</span>
+                                        <span style="color: #FF6578;">ON GROCERIES</span>
+                                    </p>
+                                </div>
+                              </div>
+                              <div class="carousel-item">
+                                <img src="images/rightSlide.png" class="d-block w-100 mb-3" alt="..." style="height: 167.9px; margin-top: 1%; margin-bottom: 2.3% !important;">
+                                <div id="rightSlideOfCarousel" class="carousel-caption d-md-block">
+                                    <p>Visit Us and Get <span style="color:#E23737">Ultimate
+                                            Experience</span>
+                                        AND <span style="color:#E23737">DISCOUNT</span>
+                                        ON Bakery</p>
+                                </div>
+                              </div>
+                            </div>
+                            <a class="carousel-control-prev" href="#promotionCarousel" role="button" data-slide="prev">
+                              <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                              <span class="sr-only">Previous</span>
+                            </a>
+                            <a class="carousel-control-next" href="#promotionCarousel" role="button" data-slide="next">
+                              <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                              <span class="sr-only">Next</span>
+                            </a>
+                          </div>
+                    </div>
+                </div>
+                <div class="row px-4">
+                    <div class="col-12" style="border-top: 2px solid #00c569; border-bottom: 2px solid #00c569;">
+                        <p class="text-center font-weight-bold my-2" style="font-size: larger;">Categories</p> 
+                    </div>
+                </div>
+                <div class="row mt-4 px-4 text-center">
+                    <div class="col-6 card mx-1 shadow bg-white categories-cards" style="width: 18rem;">
+                        <a href="#" class="cardFontColor">
+                            <img src="images/categories_page_card_icons/groceries.png" class="card-img-top mt-4" alt="...">
+                            <div class="card-body">
+                            <h5 class="card-title">Groceries</h5>
+                            </div>
+                        </a>
+                    </div>
+                    <div class="col-6 card mx-1 shadow bg-white categories-cards" style="width: 18rem;">
+                        <a href="#Page3" class="cardFontColor">
+                            <img src="images/categories_page_card_icons/electronics.png" class="card-img-top mt-2" alt="...">
+                            <div class="card-body">
+                            <h5 class="card-title">Electronics</h5>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+                <div class="row mt-4 mb-3 px-4 text-center">
+                    <div class="col-6 card mx-1 shadow bg-white categories-cards" style="width: 18rem;">
+                        <img src="images/categories_page_card_icons/stationery.png" class="card-img-top mt-4" alt="...">
+                        <div class="card-body">
+                            <h5 class="card-title">Stationery</h5>
+                        </div>
+                    </div>
+                    <div class="col-6 card mx-1 shadow bg-white categories-cards" style="width: 18rem;">
+                        <img src="images/categories_page_card_icons/bakery.png" class="card-img-top mt-4 mx-3 image-resolution" alt="...">
+                        <div class="card-body">
+                          <h5 class="card-title">Bakery</h5>
+                        </div>
+                    </div>
+                </div>
+                <div class="row mt-4 mb-3 px-4 text-center">
+                    <div class="col-6 card mx-1 shadow bg-white categories-cards" style="width: 18rem;">
+                        <img src="images/categories_page_card_icons/pet.png" class="card-img-top mt-4 mx-3 image-resolution" alt="...">
+                        <div class="card-body">
+                          <h5 class="card-title">Pet</h5>
+                        </div>
+                    </div>
+                    <div class="col-6 card mx-1 shadow bg-white categories-cards" style="width: 18rem;">
+                        <img src="images/categories_page_card_icons/hunting.png" class="card-img-top mt-4 mx-3 image-resolution" alt="...">
+                        <div class="card-body">
+                          <h5 class="card-title">Hunting</h5>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        
+        <!-- footer -->
+        <div data-role="footer" data-position="fixed" data-fullscreen="false">
+            <div data-role="navbar">
+                <ul id="footerNav">
+                    <li><a href="#Page1" style="box-shadow:none"><img style="height: 3.75em; width: 3.75em; filter: invert(47%) sepia(82%) saturate(1573%) hue-rotate(118deg) brightness(99%) contrast(101%);" class="ui-btn-icon-notext" src="images/home.png"></a></li>
+                    <li><a href="#Page2" onclick="favlistCard()" style="padding: 16%; box-shadow:none" ><img style="height: 2.75em; width: 2.75em;" class="ui-btn-icon-notext" src="images/favourite.png"></a></li>
+                    <li><a href="#Page3" style="padding: 16%; box-shadow:none"><img style="height: 2.75em; width: 2.75em;"  class="ui-btn-icon-notext" src="images/shop.png"></a></li>
+                    <li><a href="#" style="padding: 9%; box-shadow:none"><img style="height: 3.75em; width: 3.75em;" class="ui-btn-icon-notext" src="images/gamification.png"></a></li>
+                    <!-- <li><a href="#" data-icon="gear"></a></li> -->
+                </ul>
+            </div><!-- /navbar -->
+        </div><!-- /footer -->
+
+    </div>
+    <!-- End page 1 Home-->
+
+    <!-- This is page 2 Favorite list-->
+    <div data-role="page" id="Page2">
+
+        <!-- /menu panel left-->
+        <div data-role="panel" data-position="left" data-display="overlay" data-theme="b" id="menu2">
+            <div class="container sidebar mt-4">
+                <div class="row">
+                    <div class="col-4">
+                        <img src="./images/profilepic.png" alt="">
+                    </div>
+                    <div class="col-8">
+                        <h4>Alexandra</h4>
+                        <p class="viewProfile">View profile</p>
+                    </div>
+                </div>
+                <hr class="hr-sidebar">
+                <div class="row mt-4"  onclick="goToPage('#Page1','')">
+                    <div class="col-2"><img src="./images/homeiconSidebar.png" alt=""></div>
+                    <div class="col-8 pl-4"><p class="side-li-element-text">Home</p></div>
+                </div>
+                <div class="row mt-4" onclick="goToPage('#Page8','')">
+                    <div class="col-2"><img src="./images/clockiconSidebar.png" alt=""></div>
+                    <div class="col-8 pl-4"><p class="side-li-element-text">Order History</p></div>
+                </div>
+                <div class="row mt-4">
+                    <div class="col-2"><img src="./images/barcodescannericonSidebar.png" alt=""></div>
+                    <div class="col-8 pl-4"><p class="side-li-element-text">QR</p></div>
+                </div>
+                <div class="row mt-4">
+                    <div class="col-2"><img src="./images/informationiconSidebar.png" alt=""></div>
+                    <div class="col-8 pl-4"><p class="side-li-element-text">About Us</p></div>
+                </div>
+                <div class="row mt-4">
+                    <div class="col-2"><img src="./images/settingsiconSidebar.png" alt=""></div>
+                    <div class="col-8 pl-4"><p class="side-li-element-text">Settings</p></div>
+                </div>
+                <hr class="hr-sidebar" style="margin-top: 100%;">
+                <div class="row footer">
+                    <div class="col-2"><img src="./images/logout.png" alt=""></div>
+                    <div class="col-8 pl-4"><p class="side-li-element-text">Log Out</p></div>
+                </div>
+            </div>
+            <!-- <hr>
+            <div class="container footer">
+                <div class="row">
+                    <div class="col-2"><img src="./img/logout.png" alt=""></div>
+                    <div class="col-8 pl-4"><p class="side-li-element-text">Log Out</p></div>
+                </div>
+            </div> -->
+        </div>
+
+        <!-- /panel left-->
+        <div data-role="header" class="container" data-position="fixed" >
+            
+            <div class="row" style="padding-bottom: 6%;">
+                <div class="col-1 mx-auto my-auto">
+                       <a data-rel="back" ><img src="./images/arrow-right.png" alt="" style="height: 25px;margin-top: 7%;"></a>
+                </div>
+                <div class="col-1 mx-auto my-auto">
+                    <a href="#menu2">
+                        <img href="#menu2" src="./images/hamburgicon.png" alt="">
+                    </a>
+                </div>
+                <div class="col-8 mx-auto my-auto">
+                    <img src="./images/cropped_image_logo.png" id="logoOnHeader" alt="logo">
+                </div>
+                <div class="col-2 mx-auto my-auto" style="text-align: right;" id="cartPg2">
+                    <img src="./images/carticon.png" alt="">
+                </div>
+            </div>
+
+        </div><!-- /header -->
+
+        <div role="main" class="ui-content">
+
+            <!-- favorite list page -->
+            <div class="container px-0" data-position="fixed" style="margin-left: 1%;">
+
+                <div class="row px-4">
+                    <div class="col-12" style="border-top: 2px solid #00c569; border-bottom: 2px solid #00c569;">
+                        <p class="text-center font-weight-bold my-2" style="font-size: larger;">Favorite List</p> 
+                    </div>
+                </div>
+                <div class="row px-4">
+                    <!-- <p>ergerg</p> -->
+                </div>
+            </div>
+
+            <div class="row my-4" style="margin: 0% 0% 0% 0%;" data-position="fixed">
+                <button type="button" class="my-4 btn btn-primary btn-lg btn-block" style="color: white; background-color: #00c569; margin-left: 6%;margin-right: 6%; margin-top: 0.5% !important;"
+                    onclick="emailFav()">Share the favorite list</button>
+            </div>
+            
+            <a href="#emailFavPopup" id="favEmailPopupTrigger" data-rel="popup" data-position-to="window" data-transition="fade"></a>
+            
+            <div data-role="popup" id="emailFavPopup" data-overlay-theme="b" style="top:31%; width: 87%; right: 6%; text-align: center; overflow: hidden; position: fixed;">
+                <a href="#" data-rel="back"
+                    class="closeBtn ui-btn ui-corner-all ui-shadow ui-btn-a ui-icon-delete ui-btn-icon-notext ui-btn-right">Close</a>
+                <div class="container my-5 text-center">
+                    <div class="row my-3">
+                        <div class="col-md-12">
+                            <h5>Email Favorites</h5>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                           <input type="text" name="emailFav" id="emailFav" placeholder="Enter Your email Address">
+                        <!-- <a href="mailto:asdf@hotmail.com" data-icon="email" data-role="button">
+                            asdf@hotmail.com
+                        </a>; -->
+                        </div>
+                    </div>
+                    <div class="row my-4">
+                        <div class="col-md-12">
+                            <button type="button" class="btn btn-primary btn-lg btn-block" style="color: white; background-color: #00c569; font-size: medium; margin-bottom: -8%; margin-top: -3%;" onclick="emailSubmit(document.getElementById('emailFav').value)">Send</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <a href="#emailFavSuccessPopup" id="favEmailSuccessPopupTrigger" data-rel="popup" data-position-to="window" data-transition="fade"></a>
+            
+            <div data-role="popup" id="emailFavSuccessPopup" data-overlay-theme="b" style="top:31%; width: 87%; right: 6%; text-align: center; overflow: hidden; position: fixed;">
+                <a href="#" data-rel="back"
+                    class="closeBtn ui-btn ui-corner-all ui-shadow ui-btn-a ui-icon-delete ui-btn-icon-notext ui-btn-right">Close</a>
+                <div class="container my-5 text-center">
+                    <div class="row my-3">
+                        <div class="col-md-12">
+                            <h5>Successful</h5>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <p id="msg" style="font-size: larger; color: #040729;">Your email has been sent successfully</p>
+                        </div>
+                    </div>
+                    <div class="row my-4">
+                        <div class="col-md-12">
+                            <button type="button" class="btn btn-primary btn-lg btn-block" style="color: white; background-color: #00c569; font-size: medium; margin-bottom: -8%; margin-top: -3%;" onclick="goToPage('#Page3','')">Back to Home</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <a href="#eventFailPopup" id="eventFailPopupTrigger" data-rel="popup" data-position-to="window"
+                data-transition="fade"></a>
+            
+            <div data-role="popup" id="eventFailPopup" data-overlay-theme="b"
+                style="top:31%; width: 87%; right: 6%; text-align: center; overflow: hidden; position: fixed;">
+                <a href="#" data-rel="back"
+                    class="ui-btn ui-corner-all ui-shadow ui-btn-a ui-icon-delete ui-btn-icon-notext ui-btn-right">Close</a>
+                <div class="container my-5 text-center">
+                    <div class="row my-3">
+                        <div class="col-md-12">
+                            <h5>Failed</h5>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <p style="font-size: larger; color: #040729;">Please enter a valid email address</p>
+                        </div>
+                    </div>
+                    <div class="row my-4">
+                        <div class="col-md-12">
+                            <button type="button" class="btn btn-primary btn-lg btn-block"
+                                style="color: white; background-color: #00c569; font-size: medium; margin-bottom: -8%; margin-top: -3%;"
+                                onclick="goToPage('#Page2','')">Back</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <a href="#eventFailMailPopup" id="eventFailMailPopupTrigger" data-rel="popup" data-position-to="window"
+                data-transition="fade"></a>
+            
+            <div data-role="popup" id="eventFailMailPopup" data-overlay-theme="b"
+                style="top:31%; width: 87%; right: 6%; text-align: center; overflow: hidden; position: fixed;">
+                <a href="#" data-rel="back"
+                    class="ui-btn ui-corner-all ui-shadow ui-btn-a ui-icon-delete ui-btn-icon-notext ui-btn-right">Close</a>
+                <div class="container my-5 text-center">
+                    <div class="row my-3">
+                        <div class="col-md-12">
+                            <h5>Failed</h5>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <p style="font-size: larger; color: #040729;">Email sent failed, error in the server</p>
+                        </div>
+                    </div>
+                    <div class="row my-4">
+                        <div class="col-md-12">
+                            <button type="button" class="btn btn-primary btn-lg btn-block"
+                                style="color: white; background-color: #00c569; font-size: medium; margin-bottom: -8%; margin-top: -3%;"
+                                onclick="goToPage('#Page2','')">Back</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <a href="#shareFavBtnFailPopup" id="shareFavBtnFailPopupTrigger" data-rel="popup" data-position-to="window"
+                data-transition="fade"></a>
+            
+            <div data-role="popup" id="shareFavBtnFailPopup" data-overlay-theme="b"
+                style="top:31%; width: 87%; right: 6%; text-align: center; overflow: hidden; position: fixed;">
+                <a href="#" data-rel="back"
+                    class="ui-btn ui-corner-all ui-shadow ui-btn-a ui-icon-delete ui-btn-icon-notext ui-btn-right">Close</a>
+                <div class="container my-5 text-center">
+                    <div class="row my-3">
+                        <div class="col-md-12">
+                            <h5>Failed</h5>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <p style="font-size: larger; color: #040729;">No favorite items to be sent</p>
+                        </div>
+                    </div>
+                    <div class="row my-4">
+                        <div class="col-md-12">
+                            <button type="button" class="btn btn-primary btn-lg btn-block"
+                                style="color: white; background-color: #00c569; font-size: medium; margin-bottom: -8%; margin-top: -3%;"
+                                onclick="goToPage('#Page2','')">Back</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        
+
+        <!-- footer -->
+        <div data-role="footer" data-position="fixed" data-fullscreen="false">
+            <div data-role="navbar">
+                <ul id="footerNav">
+                    <li><a href="#Page1" style="box-shadow:none"><img style="height: 3.75em; width: 3.75em;" class="ui-btn-icon-notext" src="images/home.png"></a></li>
+                    <li><a href="#Page2" style="padding: 16%; box-shadow:none" ><img style="height: 2.75em; width: 2.75em; filter: invert(47%) sepia(82%) saturate(1573%) hue-rotate(118deg) brightness(99%) contrast(101%);" class="ui-btn-icon-notext" src="images/favourite.png"></a></li>
+                    <li><a href="#Page3" style="padding: 16%; box-shadow:none"><img style="height: 2.75em; width: 2.75em;"  class="ui-btn-icon-notext" src="images/shop.png"></a></li>
+                    <li><a href="#" style="padding: 9%; box-shadow:none"><img style="height: 3.75em; width: 3.75em;" class="ui-btn-icon-notext" src="images/gamification.png"></a></li>
+                    <!-- <li><a href="#" data-icon="gear"></a></li> -->
+                </ul>
+            </div><!-- /navbar -->
+        </div><!-- /footer -->
+
+    </div>
+    <!-- End page 2 Favorite list-->
+    
+    <!-- This is page 3 Market place-->
+    <div data-role="page" id="Page3">
+
+        <!-- /menu panel left-->
+        <div data-role="panel" data-position="left" data-display="overlay" data-theme="b" id="menu3">
+            <div class="container sidebar mt-4">
+                <div class="row">
+                    <div class="col-4">
+                        <img src="./images/profilepic.png" alt="">
+                    </div>
+                    <div class="col-8">
+                        <h4>Alexandra</h4>
+                        <p class="viewProfile">View profile</p>
+                    </div>
+                </div>
+                <hr class="hr-sidebar">
+                <div class="row mt-4"  onclick="goToPage('#Page1','')">
+                    <div class="col-2"><img src="./images/homeiconSidebar.png" alt=""></div>
+                    <div class="col-8 pl-4"><p class="side-li-element-text">Home</p></div>
+                </div>
+                <div class="row mt-4" onclick="goToPage('#Page8','')">
+                    <div class="col-2"><img src="./images/clockiconSidebar.png" alt=""></div>
+                    <div class="col-8 pl-4"><p class="side-li-element-text">Order History</p></div>
+                </div>
+                <div class="row mt-4">
+                    <div class="col-2"><img src="./images/barcodescannericonSidebar.png" alt=""></div>
+                    <div class="col-8 pl-4"><p class="side-li-element-text">QR</p></div>
+                </div>
+                <div class="row mt-4">
+                    <div class="col-2"><img src="./images/informationiconSidebar.png" alt=""></div>
+                    <div class="col-8 pl-4"><p class="side-li-element-text">About Us</p></div>
+                </div>
+                <div class="row mt-4">
+                    <div class="col-2"><img src="./images/settingsiconSidebar.png" alt=""></div>
+                    <div class="col-8 pl-4"><p class="side-li-element-text">Settings</p></div>
+                </div>
+                <hr class="hr-sidebar" style="margin-top: 100%;">
+                <div class="row footer">
+                    <div class="col-2"><img src="./images/logout.png" alt=""></div>
+                    <div class="col-8 pl-4"><p class="side-li-element-text">Log Out</p></div>
+                </div>
+            </div>
+            <!-- <hr>
+            <div class="container footer">
+                <div class="row">
+                    <div class="col-2"><img src="./img/logout.png" alt=""></div>
+                    <div class="col-8 pl-4"><p class="side-li-element-text">Log Out</p></div>
+                </div>
+            </div> -->
+        </div>
+
+        <!-- /panel left-->
+        <div data-role="header" class="container" data-position="fixed" >
+            
+            <div class="row" style="padding-bottom: 6%;">
+                <div class="col-1 mx-auto my-auto">
+                    <a data-rel="back"><img src="./images/arrow-right.png" alt="" style="height: 25px;margin-top: 7%;"></a>
+                </div>
+                <div class="col-1 mx-auto my-auto">
+                    <a href="#menu3">
+                        <img href="#menu3" src="./images/hamburgicon.png" alt="">
+                    </a>
+                </div>
+                <div class="col-8 mx-auto my-auto">
+                    <img src="./images/cropped_image_logo.png" id="logoOnHeader" alt="logo">
+                </div>
+                <div class="col-2 mx-auto my-auto" style="text-align: right;" id="cartPg3">
+                        <img src="./images/carticon.png" alt="">
+                </div>
+            </div>
+
+        </div><!-- /header -->
+
+        <div role="main" class="ui-content">
+
+            <!-- Market place page -->
+            <div class="container px-0" data-position="fixed" style="margin-left: 1%;">
+                <div class="row px-4">
+                    <div class="col-12" style="border-top: 2px solid #00c569; border-bottom: 2px solid #00c569;">
+                        <p class="text-center font-weight-bold my-2" style="font-size: larger;">Deals</p>
+                    </div>
+                </div>
+                <div class="row my-2">
+                    <div class="col-md-12">
+                        <div id="promotionCarousel1" class="carousel slide" data-ride="carousel">
+                            <ol class="carousel-indicators">
+                              <li data-target="#promotionCarousel1" data-slide-to="0" class="active"></li>
+                              <li data-target="#promotionCarousel1" data-slide-to="1"></li>
+                              <li data-target="#promotionCarousel1" data-slide-to="2"></li>
+                            </ol>
+                            <div class="carousel-inner">
+                              <div class="carousel-item active">
+                                <img src="images/leftslide.png" class="d-block w-100" alt="...">
+                                <div id="leftSlideOfCarousel" class="carousel-caption d-md-block">
+                                    <!-- <h5>First slide label</h5> -->
+                                    <p>SUPER SALE !
+                                        GET <span style="color: #00FFEB;">50% DISCOUNT</span>
+                                        FOR THE MANY ITEMS.</p>
+                                </div>
+                              </div>
+                              <div class="carousel-item">
+                                <img src="images/middleSlide.png" class="d-block w-100" alt="...">
+                                <div id="middleSlideOfCarousel" class="carousel-caption  d-md-block">
+                                    <p>THE NEW SUPERMARKET
+                                        COMPARISON APP
+                                        COULD SAVE
+                                        <span style="color: #E3FF00;"> YOUR $$$</span>
+                                        <span style="color: #FF6578;">ON GROCERIES</span>
+                                    </p>
+                                </div>
+                              </div>
+                              <div class="carousel-item">
+                                <img src="images/rightSlide.png" class="d-block w-100 mb-3" alt="..." style="height: 164.9px;">
+                                <div id="rightSlideOfCarousel" class="carousel-caption d-md-block">
+                                    <p>Visit Us and Get <span style="color:#E23737">Ultimate
+                                            Experience</span>
+                                        AND <span style="color:#E23737">DISCOUNT</span>
+                                        ON Bakery</p>
+                                </div>
+                              </div>
+                            </div>
+                            <a class="carousel-control-prev" href="#promotionCarousel1" role="button" data-slide="prev">
+                              <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                              <span class="sr-only">Previous</span>
+                            </a>
+                            <a class="carousel-control-next" href="#promotionCarousel1" role="button" data-slide="next">
+                              <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                              <span class="sr-only">Next</span>
+                            </a>
+                          </div>
+                    </div>
+                </div>
+                <div class="row px-4">
+                    <div class="col-12" style="border-top: 2px solid #00c569; border-bottom: 2px solid #00c569;">
+                        <p class="text-center font-weight-bold my-2" style="font-size: larger;">Market</p> 
+                    </div>
+                </div>
+
+            </div>
+
+
+        </div>
+
+        <!-- footer -->
+        <div data-role="footer" data-position="fixed" data-fullscreen="false">
+            <div data-role="navbar">
+                <ul id="footerNav">
+                    <li><a href="#Page1" style="box-shadow:none"><img style="height: 3.75em; width: 3.75em;" class="ui-btn-icon-notext" src="images/home.png"></a></li>
+                    <li><a href="#Page2" onclick="favlistCard()" style="padding: 16%; box-shadow:none" ><img style="height: 2.75em; width: 2.75em;" class="ui-btn-icon-notext" src="images/favourite.png"></a></li>
+                    <li><a href="#Page3" style="padding: 16%; box-shadow:none"><img style="height: 2.75em; width: 2.75em; filter: invert(47%) sepia(82%) saturate(1573%) hue-rotate(118deg) brightness(99%) contrast(101%);"  class="ui-btn-icon-notext" src="images/shop.png"></a></li>
+                    <li><a href="#" style="padding: 9%; box-shadow:none"><img style="height: 3.75em; width: 3.75em;" class="ui-btn-icon-notext" src="images/gamification.png"></a></li>
+                    <!-- <li><a href="#" data-icon="gear"></a></li> -->
+                </ul>
+            </div><!-- /navbar -->
+        </div><!-- /footer -->
+
+    </div>
+    <!-- End page 3 Market place-->
+
+<!-- This is page 4 Product specific POI page-->
+    <div data-role="page" id="Page4">
+
+        <!-- /menu panel left-->
+        <div data-role="panel" data-position="left" data-display="overlay" data-theme="b" id="menu4">
+            <div class="container sidebar mt-4">
+                <div class="row">
+                    <div class="col-4">
+                        <img src="./images/profilepic.png" alt="">
+                    </div>
+                    <div class="col-8">
+                        <h4>Alexandra</h4>
+                        <p class="viewProfile">View profile</p>
+                    </div>
+                </div>
+                <hr class="hr-sidebar">
+                <div class="row mt-4"  onclick="goToPage('#Page1','')">
+                    <div class="col-2"><img src="./images/homeiconSidebar.png" alt=""></div>
+                    <div class="col-8 pl-4"><p class="side-li-element-text">Home</p></div>
+                </div>
+                <div class="row mt-4" onclick="goToPage('#Page8','')">
+                    <div class="col-2"><img src="./images/clockiconSidebar.png" alt=""></div>
+                    <div class="col-8 pl-4"><p class="side-li-element-text">Order History</p></div>
+                </div>
+                <div class="row mt-4">
+                    <div class="col-2"><img src="./images/barcodescannericonSidebar.png" alt=""></div>
+                    <div class="col-8 pl-4"><p class="side-li-element-text">QR</p></div>
+                </div>
+                <div class="row mt-4">
+                    <div class="col-2"><img src="./images/informationiconSidebar.png" alt=""></div>
+                    <div class="col-8 pl-4"><p class="side-li-element-text">About Us</p></div>
+                </div>
+                <div class="row mt-4">
+                    <div class="col-2"><img src="./images/settingsiconSidebar.png" alt=""></div>
+                    <div class="col-8 pl-4"><p class="side-li-element-text">Settings</p></div>
+                </div>
+                <hr class="hr-sidebar" style="margin-top: 100%;">
+                <div class="row footer">
+                    <div class="col-2"><img src="./images/logout.png" alt=""></div>
+                    <div class="col-8 pl-4"><p class="side-li-element-text">Log Out</p></div>
+                </div>
+            </div>
+            <!-- <hr>
+            <div class="container footer">
+                <div class="row">
+                    <div class="col-2"><img src="./img/logout.png" alt=""></div>
+                    <div class="col-8 pl-4"><p class="side-li-element-text">Log Out</p></div>
+                </div>
+            </div> -->
+        </div>
+
+        <!-- /panel left-->
+        <div data-role="header" class="container" data-position="fixed" >
+            
+            <div class="row" style="padding-bottom: 6%;">
+                <div class="col-1 mx-auto my-auto">
+                    <a data-rel="back"><img src="./images/arrow-right.png" alt="" style="height: 25px;margin-top: 7%;"></a>
+                </div>
+                <div class="col-1 mx-auto my-auto">
+                    <a href="#menu4">
+                        <img href="#menu4" src="./images/hamburgicon.png" alt="">
+                    </a>
+                </div>
+                <div class="col-8 mx-auto my-auto">
+                    <img src="./images/cropped_image_logo.png" id="logoOnHeader" alt="logo">
+                </div>
+                <div class="col-2 mx-auto my-auto" style="text-align: right;" id="cartPg4">
+                    <img src="./images/carticon.png" alt="">
+                </div>
+            </div>
+
+        </div><!-- /header -->
+
+        <div role="main" class="ui-content">
+
+            <!-- Product specific POI page -->
+            <div class="container px-0" data-position="fixed" style="margin-left: 1%; padding-right: 2% !important;">
+                <!-- <div class="row px-4">
+                    <div class="col-12" style="border-top: 2px solid #00c569; border-bottom: 2px solid #00c569;">
+                        <p class="text-center font-weight-bold my-2" style="font-size: larger;">Deals</p>
+                    </div>
+                </div> -->
+                <div class="row">
+                    <div class="col-2"></div>
+                    <div class="col-8">
+                        <div id="poiDtlsCarouselIndicators" class="carousel slide" data-ride="carousel"
+                            data-interval="false">
+                            <ol class="carousel-indicators">
+                                <li data-target="#poiDtlsCarouselIndicators" data-slide-to="0" class="active"></li>
+                                <li data-target="#poiDtlsCarouselIndicators" data-slide-to="1"></li>
+                                <li data-target="#poiDtlsCarouselIndicators" data-slide-to="2"></li>
+                            </ol>
+                            <div class="carousel-inner">
+                                <div class="carousel-item active">
+                                    <img class="d-block specificPoIImgResolution" id="imagePath1"
+                                        src="" alt="First slide">
+                                </div>
+                                <div class="carousel-item">
+                                    <img class="d-block specificPoIImgResolution" id="imagePath2"
+                                        src="" alt="Second slide">
+                                </div>
+                                <div class="carousel-item">
+                                    <img class="d-block specificPoIImgResolution" id="imagePath3"
+                                        src="" alt="Third slide">
+                                </div>
+                            </div>
+                            <a class="carousel-control-prev" href="#poiDtlsCarouselIndicators" role="button"
+                                data-slide="prev">
+                                <span class="carousel-control-prev-icon" aria-hidden="true" style="filter: invert(1);"></span>
+                                <span class="sr-only">Previous</span>
+                            </a>
+                            <a class="carousel-control-next" href="#poiDtlsCarouselIndicators" role="button"
+                                data-slide="next">
+                                <span class="carousel-control-next-icon" aria-hidden="true" style="filter: invert(1);"></span>
+                                <span class="sr-only">Next</span>
+                            </a>
+                        </div>
+                    </div>
+                    <div id="specificPoIFavouriteIcon" class="col-2 text-right">
+                        <i id="POIFav" class=" "></i>
+                    </div>
+                </div>
+                <div class="row my-2">
+                    <div class="col-4" style="font-size: x-large" id="POIPrice">1500$</div>
+                    <div class="col-4">&nbsp;</div>
+                    <div class="col-4 text-right">
+                        <img src="images/SpecificPoIDtlsPage/Icon material-add-shopping-cart.png" alt="cart" onclick="addCartItem()" style="width: 21%;">
+                    </div>
+                </div>
+                <div class="row my-2">
+                    <div class="col-3" style="font-size: large; color: #00C569; font-weight: 600;" id="POIName"></div>
+                    <div class="col-9" id="POIQunatity">4 items</div>
+                </div>
+                <hr>
+                <div class="row">
+                    <div class="col-md-12">
+                        <h5>Description</h5>
+                        <p>Publishing and graphic design, Lorem ipsum is a placeholder text commonly used to demonstrate
+                            the visual form of a document or a typeface without relying on meaningful content. Lorem
+                            ipsum may be used as a placeholder before final copy is available.</p>
+                    </div>
+                </div>
+                <div class="row py-4" style="background-color: #f3f3f3; margin: 2%;">
+                    <div class="col-md-12">
+                        <div class="row">
+                            <div class="col-md-4 text-left">
+                                Customer comments(1)
+                            </div>
+                            <div class="col-md-8">
+                                <i class="bi bi-star-fill"></i>
+                                <i class="bi bi-star-fill"></i>
+                                <i class="bi bi-star-fill"></i>
+                                <i class="bi bi-star-fill"></i>
+                                <i class="bi bi-star"></i>
+                            </div>
+                        </div>
+                        <hr>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <h6>Lasith Bandara</h6>
+                                <p>Publishing and graphic design, Lorem ipsum is a placeholder text commonly used to
+                                    demonstrate the visual form of a document or a typeface without relying on
+                                    meaningful content.</p>
+                                <p class="text-right my-0" style="color: #00C569;">Reply</p>
+                            </div>
+                        </div>
+                        <hr>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <h6>Alex Levy</h6>
+                                <p>Publishing and graphic design, Lorem ipsum is a placeholder text commonly used to
+                                    demonstrate the visual form of a document or a typeface without relying on
+                                    meaningful content.</p>
+                                <p class="text-right my-0" style="color: #00C569;">Reply</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row my-4" style="margin: 0% 0% 0% 0%;">
+                    <button type="button" class="my-4 btn btn-primary btn-lg btn-block" style="color: white; background-color: #00c569" onclick="addCartItemPOI()">Buy Now</button>
+                </div>
+                
+            </div>
+
+            <a href="#cartSuccessPopup" id="cartSuccessPopupTrigger" data-rel="popup" data-position-to="window" data-transition="fade"></a>
+            
+            <div data-role="popup" id="cartSuccessPopup" data-overlay-theme="b" style="top:31%; width: 87%; right: 6%; text-align: center; overflow: hidden; position: fixed;">
+                <a href="#" data-rel="back"
+                    class="closeBtn ui-btn ui-corner-all ui-shadow ui-btn-a ui-icon-delete ui-btn-icon-notext ui-btn-right">Close</a>
+                <div class="container my-5 text-center">
+                    <div class="row my-3">
+                        <div class="col-md-12">
+                            <h5>Successful</h5>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <p style="font-size: larger; color: #040729;">Item added successfully</p>
+                        </div>
+                    </div>
+                    <div class="row my-4">
+                        <div class="col-md-12">
+                            <button type="button" class="btn btn-primary btn-lg btn-block" style="color: white; background-color: #00c569; font-size: medium; margin-bottom: -8%; margin-top: -3%;" onclick="goToPage('#Page4','')">Back</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <a href="#cartUnSuccessPopup" id="cartUnSuccessPopupTrigger" data-rel="popup" data-position-to="window" data-transition="fade"></a>
+            
+            <div data-role="popup" id="cartUnSuccessPopup" data-overlay-theme="b" style="top:31%; width: 87%; right: 6%; text-align: center; overflow: hidden; position: fixed;">
+                <a href="#" data-rel="back"
+                    class="closeBtn ui-btn ui-corner-all ui-shadow ui-btn-a ui-icon-delete ui-btn-icon-notext ui-btn-right">Close</a>
+                <div class="container my-5 text-center">
+                    <div class="row my-3">
+                        <div class="col-md-12">
+                            <h5>Failed</h5>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <p style="font-size: larger; color: #040729;">Item adding failed</p>
+                        </div>
+                    </div>
+                    <div class="row my-4">
+                        <div class="col-md-12">
+                            <button type="button" class="btn btn-primary btn-lg btn-block" style="color: white; background-color: #00c569; font-size: medium; margin-bottom: -8%; margin-top: -3%;" onclick="goToPage('#Page4','')">Back</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- footer -->
+        <div data-role="footer" data-position="fixed" data-fullscreen="false">
+            <div data-role="navbar">
+                <ul id="footerNav">
+                    <li><a href="#Page1" style="box-shadow:none"><img style="height: 3.75em; width: 3.75em;" class="ui-btn-icon-notext" src="images/home.png"></a></li>
+                    <li><a href="#Page2" onclick="favlistCard()" style="padding: 16%; box-shadow:none" ><img style="height: 2.75em; width: 2.75em;" class="ui-btn-icon-notext" src="images/favourite.png"></a></li>
+                    <li><a href="#Page3" style="padding: 16%; box-shadow:none"><img style="height: 2.75em; width: 2.75em; filter: invert(47%) sepia(82%) saturate(1573%) hue-rotate(118deg) brightness(99%) contrast(101%);"  class="ui-btn-icon-notext" src="images/shop.png"></a></li>
+                    <li><a href="#" style="padding: 9%; box-shadow:none"><img style="height: 3.75em; width: 3.75em;" class="ui-btn-icon-notext" src="images/gamification.png"></a></li>
+                    <!-- <li><a href="#" data-icon="gear"></a></li> -->
+                </ul>
+            </div><!-- /navbar -->
+        </div><!-- /footer -->
+
+    </div>
+    <!-- End page 4 Product specific POI page-->
+
+    <!-- This is page 5 Cart page-->
+    <div data-role="page" id="Page5">
+
+        <!-- /menu panel left-->
+        <div data-role="panel" data-position="left" data-display="overlay" data-theme="b" id="menu5">
+            <div class="container sidebar mt-4">
+                <div class="row">
+                    <div class="col-4">
+                        <img src="./images/profilepic.png" alt="">
+                    </div>
+                    <div class="col-8">
+                        <h4>Alexandra</h4>
+                        <p class="viewProfile">View profile</p>
+                    </div>
+                </div>
+                <hr class="hr-sidebar">
+                <div class="row mt-4"  onclick="goToPage('#Page1','')">
+                    <div class="col-2"><img src="./images/homeiconSidebar.png" alt=""></div>
+                    <div class="col-8 pl-4"><p class="side-li-element-text">Home</p></div>
+                </div>
+                <div class="row mt-4" onclick="goToPage('#Page8','')">
+                    <div class="col-2"><img src="./images/clockiconSidebar.png" alt=""></div>
+                    <div class="col-8 pl-4"><p class="side-li-element-text">Order History</p></div>
+                </div>
+                <div class="row mt-4">
+                    <div class="col-2"><img src="./images/barcodescannericonSidebar.png" alt=""></div>
+                    <div class="col-8 pl-4"><p class="side-li-element-text">QR</p></div>
+                </div>
+                <div class="row mt-4">
+                    <div class="col-2"><img src="./images/informationiconSidebar.png" alt=""></div>
+                    <div class="col-8 pl-4"><p class="side-li-element-text">About Us</p></div>
+                </div>
+                <div class="row mt-4">
+                    <div class="col-2"><img src="./images/settingsiconSidebar.png" alt=""></div>
+                    <div class="col-8 pl-4"><p class="side-li-element-text">Settings</p></div>
+                </div>
+                <hr class="hr-sidebar" style="margin-top: 100%;">
+                <div class="row footer">
+                    <div class="col-2"><img src="./images/logout.png" alt=""></div>
+                    <div class="col-8 pl-4"><p class="side-li-element-text">Log Out</p></div>
+                </div>
+            </div>
+            <!-- <hr>
+            <div class="container footer">
+                <div class="row">
+                    <div class="col-2"><img src="./img/logout.png" alt=""></div>
+                    <div class="col-8 pl-4"><p class="side-li-element-text">Log Out</p></div>
+                </div>
+            </div> -->
+        </div>
+
+        <!-- /panel left-->
+        <div data-role="header" class="container" data-position="fixed" >
+            
+            <div class="row" style="padding-bottom: 6%;">
+                <div class="col-1 mx-auto my-auto">
+                    <a data-rel="back"><img src="./images/arrow-right.png" alt="" style="height: 25px;margin-top: 7%;"></a>
+                </div>
+                <div class="col-1 mx-auto my-auto">
+                    <a href="#menu5">
+                        <img href="#menu5" src="./images/hamburgicon.png" alt="">
+                    </a>
+                </div>
+                <div class="col-8 mx-auto my-auto">
+                    <img src="./images/cropped_image_logo.png" id="logoOnHeader" alt="logo">
+                </div>
+                <div class="col-2 mx-auto my-auto" style="text-align: right;" >
+                    <img src="./images/carticon.png" alt="">
+                </div>
+            </div>
+
+        </div><!-- /header -->
+
+        <div role="main" class="ui-content">
+
+            <!-- Cart page -->
+            <div class="container px-0" data-position="fixed" style="margin-left: 1%; padding-right: 2% !important;">
+                <div class="row px-4">
+                    <div class="col-12" style="border-top: 2px solid #00c569; border-bottom: 2px solid #00c569;">
+                        <p class="text-center font-weight-bold my-2" style="font-size: larger;">Cart</p>
+                    </div>
+                </div>
+                <div class="row my-1">
+                    <!-- <div class="col-2"></div>
+                    <div class="col-8">
+                        <div class="row shadow-sm"
+                            style="background-color: #e3e1e1; border-radius: 10px; border: 1px solid #707070;">
+                            <div class="col-10">
+                                <input type="text" placeholder="Search market..." style="background-color: #e3e1e1; font-size: medium;">
+                            </div>
+                            <div class="col-2 my-3">
+                                <i class="bi bi-search"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-2 text-right pr-0"></div> -->
+                </div>
+                <div class="row my-4" style="padding: 4%;">
+                    <div class="col-12 card shadow-sm cart-cards"
+                        style="background-color: #00C569; color: white; font-size: x-large;">
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-12">
+                                    <div class="row">
+                                        <div class="col-6 text-left">
+                                            <h4>Price</h4>
+                                        </div>
+                                        <div id="TotalPrc" class="col-6 text-right">
+                                            <h4 ></h4>
+                                        </div>
+                                    </div>
+                                    <div class="row mt-3">
+                                        <div class="col-6 text-left">
+                                            <h4>Discount</h4>
+                                        </div>
+                                        <div id="discountPerc" class="col-6 text-right">
+                                            <h4></h4>
+                                        </div>
+                                    </div>
+                                    <div class="row mt-3">
+                                        <div class="col-6 text-left">
+                                            <h4>Delivery</h4>
+                                        </div>
+                                        <div id="deliverChg" class="col-6 text-right">
+                                            <h4></h4>
+                                        </div>
+                                    </div>
+                                    <div class="row mt-3 pt-3" style="border-top: 3px solid white;">
+                                        <div class="col-5 text-left">
+                                            <h4>Total</h4>
+                                        </div>
+                                        <div class="col-2 text-center">
+                                            <h4>|</h4>
+                                        </div>
+                                        <div id="FinalPrc"  class="col-5 text-right">
+                                            <h4></h4>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                 <div class="row" style="margin: 0% 0% 0% 0%;">
+                    <button type="button" class=" btn btn-primary btn-lg btn-block" style="color: white; background-color: #00c569" onclick="checkout()" >Checkout</button>
+                </div>
+                <div class="row mt-3 text-left">
+                    <div class="col-12">
+                        <h5>People also buy</h5>
+                    </div>
+                </div>
+                <div class="row mt-2 mb-3 text-center">
+                    <div class="col-6 card mx-1 shadow bg-white market-cards" style="width: 18rem;">
+                        <div class="card-body" style="padding: 7% 1% 1% 0%;">
+                            <div class="row text-center">
+                                <div class="col-12 text-right favouriteArea${item.id}">
+                                    <i id="hIconFavPeopList1" class="bi bi-heart" itemId="1"></i>
+                                </div>
+                            </div>
+                            <div class="row text-center"  itemId="1"
+                                onclick="goToPagePeopleAlsoBuy('#Page4', '1')">
+                                <img src="images/market_place_icons/ps4.png" class="card-img-top mx-3 image-resolution" alt="...">
+                            </div>
+                            <h5 class="card-title" onclick="goToPagePeopleAlsoBuy('#Page4', '1')">Sony PS4
+                            </h5>
+                            <div class="row text-center" onclick="goToPagePeopleAlsoBuy('#Page4', '1')">
+                                <div class="col-5">
+                                    <p style="color: #707070;">$400</p>
+                                </div>
+                                <!-- <div class="col-7 ratingAreaOf${item.id}">
+                                    rating
+                                </div> -->
+                                <div class="col-7 ratingAreaOf">
+                                    <i class="bi bi-star-fill"></i>
+                                    <i class="bi bi-star-fill"></i>
+                                    <i class="bi bi-star-fill"></i>
+                                    <i class="bi bi-star-fill"></i>
+                                    <i class="bi bi-star-fill"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-6 card mx-1 shadow bg-white market-cards" style="width: 18rem;">
+                        <div class="card-body" style="padding: 7% 1% 1% 0%;">
+                            <div class="row text-center">
+                                <div class="col-12 text-right favouriteArea${item.id}">
+                                    <i id="hIconFavPeopList2" class="bi bi-heart" itemId="2"></i>
+                                </div>
+                            </div>
+                            <div class="row text-center"  itemId="2"
+                                onclick="goToPagePeopleAlsoBuy('#Page4', '2')">
+                                <img src="images/market_place_icons/tv.png" style="width: 124px;" class="card-img-top mx-3 image-resolution" alt="...">
+                            </div>
+                            <h5 class="card-title" onclick="goToPagePeopleAlsoBuy('#Page4', '2')">TV
+                            </h5>
+                            <div class="row text-center" onclick="goToPagePeopleAlsoBuy('#Page4', '2')">
+                                <div class="col-5">
+                                    <p style="color: #707070;">$1200</p>
+                                </div>
+                                <!-- <div class="col-7 ratingAreaOf${item.id}">
+                                    rating
+                                </div> -->
+                                <div class="col-7 ratingAreaOf">
+                                    <i class="bi bi-star-fill"></i>
+                                    <i class="bi bi-star-fill"></i>
+                                    <i class="bi bi-star-fill"></i>
+                                    <i class="bi bi-star-fill"></i>
+                                    <i class="bi bi-star"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+             <a href="#eventFailCartPopup" id="eventFailCartPopupTrigger" data-rel="popup" data-position-to="window" data-transition="fade"></a>
+            
+            <div data-role="popup" id="eventFailCartPopup" data-overlay-theme="b"
+                style="top:31%; width: 87%; right: 6%; text-align: center; overflow: hidden; position: fixed;">
+                <a href="#" data-rel="back"
+                    class="ui-btn ui-corner-all ui-shadow ui-btn-a ui-icon-delete ui-btn-icon-notext ui-btn-right">Close</a>
+                <div class="container my-5 text-center">
+                    <div class="row my-3">
+                        <div class="col-md-12">
+                            <h5>Failed</h5>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <p style="font-size: larger; color: #040729;">Items are not in the range</p>
+                        </div>
+                    </div>
+                    <div class="row my-4">
+                        <div class="col-md-12">
+                            <button type="button" class="btn btn-primary btn-lg btn-block"
+                                style="color: white; background-color: #00c569; font-size: medium; margin-bottom: -8%; margin-top: -3%;"
+                                onclick="goToPage('#Page5','')">Back</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+        </div>
+
+        <!-- footer -->
+        <div data-role="footer" data-position="fixed" data-fullscreen="false">
+            <div data-role="navbar">
+                <ul id="footerNav">
+                    <li><a href="#Page1" style="box-shadow:none"><img style="height: 3.75em; width: 3.75em;" class="ui-btn-icon-notext" src="images/home.png"></a></li>
+                    <li><a href="#Page2" onclick="favlistCard()" style="padding: 16%; box-shadow:none" ><img style="height: 2.75em; width: 2.75em;" class="ui-btn-icon-notext" src="images/favourite.png"></a></li>
+                    <li><a href="#Page3" style="padding: 16%; box-shadow:none"><img style="height: 2.75em; width: 2.75em; filter: invert(47%) sepia(82%) saturate(1573%) hue-rotate(118deg) brightness(99%) contrast(101%);"  class="ui-btn-icon-notext" src="images/shop.png"></a></li>
+                    <li><a href="#" style="padding: 9%; box-shadow:none"><img style="height: 3.75em; width: 3.75em;" class="ui-btn-icon-notext" src="images/gamification.png"></a></li>
+                    <!-- <li><a href="#" data-icon="gear"></a></li> -->
+                </ul>
+            </div><!-- /navbar -->
+        </div><!-- /footer -->
+
+    </div>
+    <!-- End page 5 Cart page-->
+
+     <!-- This is page 7 Checkout page-->
+    <div data-role="page" id="Page7">
+
+        <!-- /menu panel left-->
+        <div data-role="panel" data-position="left" data-display="overlay" data-theme="b" id="menu7">
+            <div class="container sidebar mt-4">
+                <div class="row">
+                    <div class="col-4">
+                        <img src="./images/profilepic.png" alt="">
+                    </div>
+                    <div class="col-8">
+                        <h4>Alexandra</h4>
+                        <p class="viewProfile">View profile</p>
+                    </div>
+                </div>
+                <hr class="hr-sidebar">
+                <div class="row mt-4"  onclick="goToPage('#Page1','')">
+                    <div class="col-2"><img src="./images/homeiconSidebar.png" alt=""></div>
+                    <div class="col-8 pl-4"><p class="side-li-element-text">Home</p></div>
+                </div>
+                <div class="row mt-4" onclick="goToPage('#Page8','')">
+                    <div class="col-2"><img src="./images/clockiconSidebar.png" alt=""></div>
+                    <div class="col-8 pl-4"><p class="side-li-element-text">Order History</p></div>
+                </div>
+                <div class="row mt-4">
+                    <div class="col-2"><img src="./images/barcodescannericonSidebar.png" alt=""></div>
+                    <div class="col-8 pl-4"><p class="side-li-element-text">QR</p></div>
+                </div>
+                <div class="row mt-4">
+                    <div class="col-2"><img src="./images/informationiconSidebar.png" alt=""></div>
+                    <div class="col-8 pl-4"><p class="side-li-element-text">About Us</p></div>
+                </div>
+                <div class="row mt-4">
+                    <div class="col-2"><img src="./images/settingsiconSidebar.png" alt=""></div>
+                    <div class="col-8 pl-4"><p class="side-li-element-text">Settings</p></div>
+                </div>
+                <hr class="hr-sidebar" style="margin-top: 100%;">
+                <div class="row footer">
+                    <div class="col-2"><img src="./images/logout.png" alt=""></div>
+                    <div class="col-8 pl-4"><p class="side-li-element-text">Log Out</p></div>
+                </div>
+            </div>
+            <!-- <hr>
+            <div class="container footer">
+                <div class="row">
+                    <div class="col-2"><img src="./img/logout.png" alt=""></div>
+                    <div class="col-8 pl-4"><p class="side-li-element-text">Log Out</p></div>
+                </div>
+            </div> -->
+        </div>
+
+        <!-- /panel left-->
+        <div data-role="header" class="container" data-position="fixed" >
+            
+            <div class="row" style="padding-bottom: 6%;">
+                <div class="col-1 mx-auto my-auto">
+                    <a data-rel="back"><img src="./images/arrow-right.png" alt="" style="height: 25px;margin-top: 7%;"></a>
+                </div>
+                <div class="col-1 mx-auto my-auto">
+                    <a href="#menu7">
+                        <img href="#menu7" src="./images/hamburgicon.png" alt="">
+                    </a>
+                </div>
+                <div class="col-8 mx-auto my-auto">
+                    <img src="./images/cropped_image_logo.png" id="logoOnHeader" alt="logo">
+                </div>
+                <div class="col-2 mx-auto my-auto" style="text-align: right;" id="cartPg7">
+                    <img src="./images/carticon.png" alt="">
+                </div>
+            </div>
+
+        </div><!-- /header -->
+
+        <div role="main" class="ui-content">
+
+            <!-- Checkout page -->
+            <div class="container px-0" data-position="fixed" style="margin-left: 1%; padding-right: 2% !important;">
+                <div class="row px-4">
+                    <div class="col-12" style="border-top: 2px solid #00c569; border-bottom: 2px solid #00c569;">
+                        <p class="text-center font-weight-bold my-2" style="font-size: larger;">Checkout</p>
+                    </div>
+                </div>
+
+                <div class="row my-4">
+                    <!-- this form will collect the details -->
+                    <form id="chkForm" name="checkoutForm" action="_self" style="padding: 0% 0% 0% 5%; width: 95%;">
+                        <input id="user_name" name="user_name" pattern="^[a-zA-Z ]*$" type="text"  placeholder="Enter your name">
+                        <label style="margin-bottom: 4%;"></label>
+                        <input id="address_ln1" name="address_ln1" type="text" placeholder="Address Line 1">
+                        <label style="margin-bottom: 4%;"></label>
+                        <input id="address_ln2" name="address_ln2" type="text" placeholder="Address Line 2">
+                        <label style="margin-bottom: 4%;"></label>
+                        <input id="address_ln3" name="address_ln3" type="text" placeholder="Address Line 3">
+                        <label style="margin-bottom: 4%;"></label>
+                        <div class="row my-4" style="margin: -1% -11% 0% -4% !important;">
+                            <div class="col-6">
+                            <input id="mobileNum" pattern="^\s*(?:\+?(\d{1,3}))?[-. (]*(\d{3})[-. )]*(\d{3})[-. ]*(\d{4})(?: *x(\d+))?\s*$" name="mobileNum" type="text" placeholder="Mobile number">
+                            </div>
+                            <div class="col-6">
+                                <input id="zip" pattern="[0-9]*" name="zip" type="text" placeholder="Zip code">
+                            </div>
+                        </div>
+                        <fieldset data-role="controlgroup" data-type="horizontal">
+                            <p>Please select your payment method</p>
+                            <label for="card">Card</label>
+                            <input type="radio" name="rb" id="card" value="card" checked="checked" />
+                            <label for="cash">Cash</label>
+                            <input type="radio" name="rb" id="cash" value="cash"  />
+                        </fieldset>
+                         <button id="customButton" class="my-4 btn btn-primary btn-lg btn-block" style="color: white; background-color: #00c569" >Checkout</button>
+                    </form>
+
+                </div>
+
+                <a href="#checkoutSuccessPopup" id="checkoutSuccessPopupTrigger" data-rel="popup" data-position-to="window" data-transition="fade"></a>
+            
+                <div data-role="popup" id="checkoutSuccessPopup" data-overlay-theme="b" style="top:31%; width: 87%; right: 6%; text-align: center; overflow: hidden; position: fixed;">
+                        <!-- <a href="#" class="ui-btn ui-corner-all ui-shadow ui-btn-a ui-icon-delete ui-btn-icon-notext ui-btn-right">Close</a> -->
+                        <a href="#" data-rel="back" class="closeBtn ui-btn ui-corner-all ui-shadow ui-btn-a ui-icon-delete ui-btn-icon-notext ui-btn-right">Close</a>
+                        <div class="container my-5 text-center">
+                            <div class="row my-3">
+                                <div class="col-md-12">
+                                    <h5>Successful</h5>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <p style="font-size: larger; color: #040729;">Your order placed successfully</p>
+                                </div>
+                            </div>
+                            <div class="row my-4">
+                                <div class="col-md-12">
+                                    <button type="button" class="btn btn-primary btn-lg btn-block" style="color: white; background-color: #00c569; font-size: medium; margin-bottom: -8%; margin-top: -3%;" onclick="goToPage('#Page8','')">Order History</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                 <a href="#checkoutFailPopup" id="checkoutFailPopupTrigger" data-rel="popup" data-position-to="window" data-transition="fade"></a>
+            
+                <div data-role="popup" id="checkoutFailPopup" data-overlay-theme="b" style="top:31%; width: 87%; right: 6%; text-align: center; overflow: hidden; position: fixed;">
+                        <a href="#" data-rel="back"
+                            class="ui-btn ui-corner-all ui-shadow ui-btn-a ui-icon-delete ui-btn-icon-notext ui-btn-right">Close</a>
+                        <div class="container my-5 text-center">
+                            <div class="row my-3">
+                                <div class="col-md-12">
+                                    <h5>Failed</h5>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <p style="font-size: larger; color: #040729;">Checkout failed</p>
+                                </div>
+                            </div>
+                            <div class="row my-4">
+                                <div class="col-md-12">
+                                    <button type="button" class="btn btn-primary btn-lg btn-block" style="color: white; background-color: #00c569; font-size: medium; margin-bottom: -8%; margin-top: -3%;" onclick="goToPage('#Page7','')">Back</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                <div class="row mt-0 text-left">
+                    <div class="col-12">
+                        <h5>People also buy</h5>
+                    </div>
+                </div>
+                <div class="row mt-2 mb-3 text-center">
+                    <div class="col-6 card mx-1 shadow bg-white market-cards" style="width: 18rem;">
+                        <div class="card-body" style="padding: 7% 1% 1% 0%;">
+                            <div class="row text-center">
+                                <div class="col-12 text-right favouriteArea${item.id}">
+                                    <i id="hIconFavPeopList1" class="bi bi-heart" itemId="1"></i>
+                                </div>
+                            </div>
+                            <div class="row text-center"  itemId="1"
+                                onclick="goToPagePeopleAlsoBuy('#Page4', '1')">
+                                <img src="images/market_place_icons/ps4.png" class="card-img-top mx-3 image-resolution" alt="...">
+                            </div>
+                            <h5 class="card-title" onclick="goToPagePeopleAlsoBuy('#Page4', '1')">Sony PS4
+                            </h5>
+                            <div class="row text-center" onclick="goToPagePeopleAlsoBuy('#Page4', '1')">
+                                <div class="col-5">
+                                    <p style="color: #707070;">$400</p>
+                                </div>
+                                <!-- <div class="col-7 ratingAreaOf${item.id}">
+                                    rating
+                                </div> -->
+                                <div class="col-7 ratingAreaOf">
+                                    <i class="bi bi-star-fill"></i>
+                                    <i class="bi bi-star-fill"></i>
+                                    <i class="bi bi-star-fill"></i>
+                                    <i class="bi bi-star-fill"></i>
+                                    <i class="bi bi-star-fill"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-6 card mx-1 shadow bg-white market-cards" style="width: 18rem;">
+                        <div class="card-body" style="padding: 7% 1% 1% 0%;">
+                            <div class="row text-center">
+                                <div class="col-12 text-right favouriteArea${item.id}">
+                                    <i id="hIconFavPeopList2" class="bi bi-heart" itemId="2"></i>
+                                </div>
+                            </div>
+                            <div class="row text-center"  itemId="2"
+                                onclick="goToPagePeopleAlsoBuy('#Page4', '2')">
+                                <img src="images/market_place_icons/tv.png" style="width: 124px;" class="card-img-top mx-3 image-resolution" alt="...">
+                            </div>
+                            <h5 class="card-title" onclick="goToPagePeopleAlsoBuy('#Page4', '2')">TV
+                            </h5>
+                            <div class="row text-center" onclick="goToPagePeopleAlsoBuy('#Page4', '2')">
+                                <div class="col-5">
+                                    <p style="color: #707070;">$1200</p>
+                                </div>
+                                <!-- <div class="col-7 ratingAreaOf${item.id}">
+                                    rating
+                                </div> -->
+                                <div class="col-7 ratingAreaOf">
+                                    <i class="bi bi-star-fill"></i>
+                                    <i class="bi bi-star-fill"></i>
+                                    <i class="bi bi-star-fill"></i>
+                                    <i class="bi bi-star-fill"></i>
+                                    <i class="bi bi-star"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+        </div>
+
+        <!-- footer -->
+        <div data-role="footer" data-position="fixed" data-fullscreen="false">
+            <div data-role="navbar">
+                <ul id="footerNav">
+                    <li><a href="#Page1" style="box-shadow:none"><img style="height: 3.75em; width: 3.75em;" class="ui-btn-icon-notext" src="images/home.png"></a></li>
+                    <li><a href="#Page2" onclick="favlistCard()" style="padding: 16%; box-shadow:none" ><img style="height: 2.75em; width: 2.75em;" class="ui-btn-icon-notext" src="images/favourite.png"></a></li>
+                    <li><a href="#Page3" style="padding: 16%; box-shadow:none"><img style="height: 2.75em; width: 2.75em; filter: invert(47%) sepia(82%) saturate(1573%) hue-rotate(118deg) brightness(99%) contrast(101%);"  class="ui-btn-icon-notext" src="images/shop.png"></a></li>
+                    <li><a href="#" style="padding: 9%; box-shadow:none"><img style="height: 3.75em; width: 3.75em;" class="ui-btn-icon-notext" src="images/gamification.png"></a></li>
+                    <!-- <li><a href="#" data-icon="gear"></a></li> -->
+                </ul>
+            </div><!-- /navbar -->
+        </div><!-- /footer -->
+
+    </div>
+    <!-- End page 7 Cart page-->    
+
+    <!-- This is page 8 order history page-->
+    <div data-role="page" id="Page8">
+
+        <!-- /menu panel left-->
+        <div data-role="panel" data-position="left" data-display="overlay" data-theme="b" id="menu8">
+            <div class="container sidebar mt-4">
+                <div class="row">
+                    <div class="col-4">
+                        <img src="./images/profilepic.png" alt="">
+                    </div>
+                    <div class="col-8">
+                        <h4>Alexandra</h4>
+                        <p class="viewProfile">View profile</p>
+                    </div>
+                </div>
+                <hr class="hr-sidebar">
+                <div class="row mt-4"  onclick="goToPage('#Page1','')">
+                    <div class="col-2"><img src="./images/homeiconSidebar.png" alt=""></div>
+                    <div class="col-8 pl-4"><p class="side-li-element-text">Home</p></div>
+                </div>
+                <div class="row mt-4">
+                    <div class="col-2"><img src="./images/clockiconSidebar.png" alt=""></div>
+                    <div class="col-8 pl-4"><p class="side-li-element-text">Order History</p></div>
+                </div>
+                <div class="row mt-4">
+                    <div class="col-2"><img src="./images/barcodescannericonSidebar.png" alt=""></div>
+                    <div class="col-8 pl-4"><p class="side-li-element-text">QR</p></div>
+                </div>
+                <div class="row mt-4">
+                    <div class="col-2"><img src="./images/informationiconSidebar.png" alt=""></div>
+                    <div class="col-8 pl-4"><p class="side-li-element-text">About Us</p></div>
+                </div>
+                <div class="row mt-4">
+                    <div class="col-2"><img src="./images/settingsiconSidebar.png" alt=""></div>
+                    <div class="col-8 pl-4"><p class="side-li-element-text">Settings</p></div>
+                </div>
+                <hr class="hr-sidebar" style="margin-top: 100%;">
+                <div class="row footer">
+                    <div class="col-2"><img src="./images/logout.png" alt=""></div>
+                    <div class="col-8 pl-4"><p class="side-li-element-text">Log Out</p></div>
+                </div>
+            </div>
+            <!-- <hr>
+            <div class="container footer">
+                <div class="row">
+                    <div class="col-2"><img src="./img/logout.png" alt=""></div>
+                    <div class="col-8 pl-4"><p class="side-li-element-text">Log Out</p></div>
+                </div>
+            </div> -->
+        </div>
+
+        <!-- /panel left-->
+        <div data-role="popup" id="ratingPopup" data-overlay-theme="b">
+            <a href="#" data-rel="back"
+                class="ui-btn ui-corner-all ui-shadow ui-btn-a ui-icon-delete ui-btn-icon-notext ui-btn-right">Close</a>
+            <div class="container my-5 text-center">
+                <div class="row my-3">
+                    <div class="col-12">
+                        <h4>Enter you rate</h4>
+                    </div>
+                </div>
+                <div class="row">
+                    <div id="ratingOfItem1" class="col-12" style="font-size: xxx-large;">
+                        <i id="rating1" value="1" class="bi bi-star"></i>
+                        <i id="rating2" value="2" class="bi bi-star"></i>
+                        <i id="rating3" value="3" class="bi bi-star"></i>
+                        <i id="rating4" value="4" class="bi bi-star"></i>
+                        <i id="rating5" value="5" class="bi bi-star"></i>
+                    </div>
+                </div>
+                <div class="row my-4">
+                    <div class="col-12">
+                        <button type="button" class="btn btn-primary btn-lg btn-block" style="color: white;"
+                            onclick="onRateSubmit()">Rate</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <a href="#ratingSuccessPopup" id="ratingSuccessPopupTrigger" data-rel="popup" data-position-to="window"
+            data-transition="fade"></a>
+        
+        <div data-role="popup" id="ratingSuccessPopup" data-overlay-theme="b">
+            <a href="#" data-rel="back"
+                class="ui-btn ui-corner-all ui-shadow ui-btn-a ui-icon-delete ui-btn-icon-notext ui-btn-right">Close</a>
+            <div class="container my-5 text-center">
+                <div class="row my-3">
+                    <div class="col-12">
+                        <h4>Successful</h4>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-12">
+                        <p style="font-size: x-large; color: #040729;">Your rating has been added successfully</p>
+                    </div>
+                </div>
+                <div class="row my-4">
+                    <div class="col-12">
+                        <button type="button" class="btn btn-primary btn-lg btn-block" style="color: white;"
+                            onclick="goToPage('#Page1')">Go to home</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div data-role="header" class="container" data-position="fixed" >
+            
+            <div class="row" style="padding-bottom: 6%;">
+                <div class="col-1 mx-auto my-auto">
+                    <a data-rel="back"><img src="./images/arrow-right.png" alt="" style="height: 25px;margin-top: 7%;"></a>
+                </div>
+                <div class="col-1 mx-auto my-auto">
+                    <a href="#menu8">
+                        <img href="#menu8" src="./images/hamburgicon.png" alt="">
+                    </a>
+                </div>
+                <div class="col-8 mx-auto my-auto">
+                    <img src="./images/cropped_image_logo.png" id="logoOnHeader" alt="logo">
+                </div>
+                <div class="col-2 mx-auto my-auto" style="text-align: right;" id="cartPg8">
+                    <img src="./images/carticon.png" alt="">
+                </div>
+            </div>
+
+        </div><!-- /header -->
+
+        <div role="main" class="ui-content">
+
+            <!-- Order history page -->
+            <div class="container px-0" data-position="fixed" style="margin-left: 1%; padding-right: 2% !important;">
+                <div class="row px-4">
+                    <div class="col-12" style="border-top: 2px solid #00c569; border-bottom: 2px solid #00c569;">
+                        <p class="text-center font-weight-bold my-2" style="font-size: larger;">Order History</p>
+                    </div>
+                </div>
+                <div class="row my-4">
+                    <div class="col-2"></div>
+                    <div class="col-8">
+                    </div>
+                    <div class="col-2 text-right pr-0"></div>
+                </div>
+                <div class="row my-4" style="padding: 4%;">
+                    <div class="col-12 card shadow-sm cart-cards"
+                        style="background-color: #00C569; color: white; font-size: x-large;">
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-12">
+                                    <div class="row">
+                                        <div class="col-6 text-left">
+                                            <h4>Price</h4>
+                                        </div>
+                                        <div id="TotalPrcHistory" class="col-6 text-right">
+                                            <h4 ></h4>
+                                        </div>
+                                    </div>
+                                    <div class="row mt-3">
+                                        <div class="col-6 text-left">
+                                            <h4>Discount</h4>
+                                        </div>
+                                        <div id="discountPercHistory" class="col-6 text-right">
+                                            <h4></h4>
+                                        </div>
+                                    </div>
+                                    <div class="row mt-3">
+                                        <div class="col-6 text-left">
+                                            <h4>Delivery</h4>
+                                        </div>
+                                        <div id="deliverChgHistory" class="col-6 text-right">
+                                            <h4></h4>
+                                        </div>
+                                    </div>
+                                    <div class="row mt-3 pt-3" style="border-top: 3px solid white;">
+                                        <div class="col-5 text-left">
+                                            <h4>Total</h4>
+                                        </div>
+                                        <div class="col-2 text-center">
+                                            <h4>|</h4>
+                                        </div>
+                                        <div id="FinalPrcHistory"  class="col-5 text-right">
+                                            <h4></h4>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row mt-1 text-left">
+                    <div class="col-12">
+                        <h5>People also buy</h5>
+                    </div>
+                </div>
+                <div class="row mt-2 mb-3 text-center">
+                    <div class="col-6 card mx-1 shadow bg-white market-cards" style="width: 18rem;">
+                        <div class="card-body" style="padding: 7% 1% 1% 0%;">
+                            <div class="row text-center">
+                                <div class="col-12 text-right favouriteArea${item.id}">
+                                    <i id="hIconFavPeopList1" class="bi bi-heart" itemId="1"></i>
+                                </div>
+                            </div>
+                            <div class="row text-center"  itemId="1"
+                                onclick="goToPagePeopleAlsoBuy('#Page4', '1')">
+                                <img src="images/market_place_icons/ps4.png" class="card-img-top mx-3 image-resolution" alt="...">
+                            </div>
+                            <h5 class="card-title" onclick="goToPagePeopleAlsoBuy('#Page4', '1')">Sony PS4
+                            </h5>
+                            <div class="row text-center" onclick="goToPagePeopleAlsoBuy('#Page4', '1')">
+                                <div class="col-5">
+                                    <p style="color: #707070;">$400</p>
+                                </div>
+                                <!-- <div class="col-7 ratingAreaOf${item.id}">
+                                    rating
+                                </div> -->
+                                <div class="col-7 ratingAreaOf">
+                                    <i class="bi bi-star-fill"></i>
+                                    <i class="bi bi-star-fill"></i>
+                                    <i class="bi bi-star-fill"></i>
+                                    <i class="bi bi-star-fill"></i>
+                                    <i class="bi bi-star-fill"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-6 card mx-1 shadow bg-white market-cards" style="width: 18rem;">
+                        <div class="card-body" style="padding: 7% 1% 1% 0%;">
+                            <div class="row text-center">
+                                <div class="col-12 text-right favouriteArea${item.id}">
+                                    <i id="hIconFavPeopList2" class="bi bi-heart" itemId="2"></i>
+                                </div>
+                            </div>
+                            <div class="row text-center"  itemId="2"
+                                onclick="goToPagePeopleAlsoBuy('#Page4', '2')">
+                                <img src="images/market_place_icons/tv.png" style="width: 124px;" class="card-img-top mx-3 image-resolution" alt="...">
+                            </div>
+                            <h5 class="card-title" onclick="goToPagePeopleAlsoBuy('#Page4', '2')">TV
+                            </h5>
+                            <div class="row text-center" onclick="goToPagePeopleAlsoBuy('#Page4', '2')">
+                                <div class="col-5">
+                                    <p style="color: #707070;">$1200</p>
+                                </div>
+                                <!-- <div class="col-7 ratingAreaOf${item.id}">
+                                    rating
+                                </div> -->
+                                <div class="col-7 ratingAreaOf">
+                                    <i class="bi bi-star-fill"></i>
+                                    <i class="bi bi-star-fill"></i>
+                                    <i class="bi bi-star-fill"></i>
+                                    <i class="bi bi-star-fill"></i>
+                                    <i class="bi bi-star"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+        </div>
+
+        <!-- footer -->
+        <div data-role="footer" data-position="fixed" data-fullscreen="false">
+            <div data-role="navbar">
+                <ul id="footerNav">
+                    <li><a href="#Page1" style="box-shadow:none"><img style="height: 3.75em; width: 3.75em;" class="ui-btn-icon-notext" src="images/home.png"></a></li>
+                    <li><a href="#Page2" onclick="favlistCard()" style="padding: 16%; box-shadow:none" ><img style="height: 2.75em; width: 2.75em;" class="ui-btn-icon-notext" src="images/favourite.png"></a></li>
+                    <li><a href="#Page3" style="padding: 16%; box-shadow:none"><img style="height: 2.75em; width: 2.75em; filter: invert(47%) sepia(82%) saturate(1573%) hue-rotate(118deg) brightness(99%) contrast(101%);"  class="ui-btn-icon-notext" src="images/shop.png"></a></li>
+                    <li><a href="#" style="padding: 9%; box-shadow:none"><img style="height: 3.75em; width: 3.75em;" class="ui-btn-icon-notext" src="images/gamification.png"></a></li>
+                    <!-- <li><a href="#" data-icon="gear"></a></li> -->
+                </ul>
+            </div><!-- /navbar -->
+        </div><!-- /footer -->
+
+    </div>
+    <!-- End page 8 Order history page-->   
+
+</body>
+</html>
